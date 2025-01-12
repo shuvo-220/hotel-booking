@@ -4,49 +4,54 @@ import axios from 'axios'
 
 const Register = () => {
 
-  const[name, setName] = useState('')
-  const[email, setEmail] = useState('');
-  const[password, setPassword] = useState('');
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const registerUser=(e)=>{
+  const registerUser = async(e) => {
     e.preventDefault()
-     axios.post('http://localhost:5000/register',{
-      name, email, password
-     })
+    try {
+     await  axios.post('http://localhost:5000/api/v1/register', {
+        name, email, password
+      })
+      alert('Registration Successfull');
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   return (
     <div className='p-4 min-h-screen flex flex-col justify-center items-center'>
-         <h1 className='text-4xl text-center mb-4'>Registration</h1>
-        <form onSubmit={registerUser} className='mt-4 max-w-md mx-auto'>
+      <h1 className='text-4xl text-center mb-4'>Registration</h1>
+      <form onSubmit={registerUser} className='mt-4 max-w-md mx-auto'>
 
-            <input 
-              className='outline-none' 
-              type='text' 
-              placeholder='Name' 
-              value={name}
-              onChange={(e)=>setName(e.target.value)}
-            />
+        <input
+          className='outline-none'
+          type='text'
+          placeholder='Name'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-            <input 
-              className='outline-none' 
-              type='email' 
-              placeholder='Enter Your Email' 
-              value={email}
-              onChange={(e)=>setEmail(e.target.value)}
-            />
+        <input
+          className='outline-none'
+          type='email'
+          placeholder='Enter Your Email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-            <input 
-              className='outline-none' 
-              type='password' 
-              placeholder='Enter Your Password' 
-              value={password}
-              onChange={(e)=>setPassword(e.target.value)}
-            />
+        <input
+          className='outline-none'
+          type='password'
+          placeholder='Enter Your Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-            <button className='primary'>Registration</button>
-        </form>
-        <p className='pt-2 text-gray-500'>Don't have an account? <Link to='/login' className='text-blue-500'>Login</Link></p>
+        <button className='primary'>Registration</button>
+      </form>
+      <p className='pt-2 text-gray-500'>Don't have an account? <Link to='/login' className='text-blue-500'>Login</Link></p>
     </div>
   )
 }
