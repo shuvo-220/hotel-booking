@@ -10,16 +10,18 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const{setUser} = useContext(userContext)
+  const{dispatch} = useContext(userContext)
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
     try {
-      const {data} = await axios.post('http://localhost:5000/api/v1/login',{
+      const res = await axios.post('http://localhost:5000/api/v1/login',{
         email, password
       })
+      dispatch({type:'LOGIN', payload:res.data.user})
+      localStorage.setItem('user', JSON.stringify(res.data.user))
+      localStorage.setItem('token', JSON.stringify(res.data.token))
       alert('Login Successful')
-      setUser(data)
       navigate('/')
     } catch (error) {
       console.log(error.message)

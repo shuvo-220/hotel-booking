@@ -40,3 +40,12 @@ exports.login = async(req, res)=>{
         res.status(400).json(error.message);
     }
 }
+
+
+exports.profile = async(req, res)=>{
+    const user = await User.find(req.user)
+    if(!user){
+        res.status(400).json('user not found');
+    }
+    res.status(200).json(user)
+}

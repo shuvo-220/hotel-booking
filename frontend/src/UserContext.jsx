@@ -1,21 +1,33 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useReducer, useState } from 'react'
 import axios from 'axios';
 
 
    export const userContext = createContext();
 
+
 const UserContext = ({children}) => {
 
-    const[user, setUser] = useState(null);
+  const initialState={
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+    token: localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null,
+  }
 
-    useEffect(()=>{
-        if(!user){
-            axios.get('/profile')
+  const reducer=(state, action)=>{
+    switch(action.type){
+      case 'LOGIN':
+        return{
+          ...state,
+          user:action.payload
         }
-    },[]);
+      default:
+        return state;
+    }
+  }
+
+   const[state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <userContext.Provider value={{user, setUser}} >
+    <userContext.Provider value={{state, dispatch}} >
         {children}
     </userContext.Provider>
   )
