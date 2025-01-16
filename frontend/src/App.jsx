@@ -7,6 +7,7 @@ import Register from './components/Register';
 import Account from './components/Account';
 import PublicRoute from './components/PublicRoute';
 import ProtectedRoute from './components/ProtectedRoute';
+import AddPlace from './components/AddPlace';
 
 function App() {
 
@@ -29,11 +30,20 @@ function App() {
             </PublicRoute>
           } />
 
-          <Route path='/account/' element={
+          <Route path='/account' element={
             <ProtectedRoute>
               <Account />
             </ProtectedRoute>
           } />
+
+
+          <Route path='/place/new' element={
+            <ProtectedRoute>
+              <AddPlace />
+            </ProtectedRoute>
+          } />
+
+
 
 
           {/* <Route path='/account/:subpage' element={

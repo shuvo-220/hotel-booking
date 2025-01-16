@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 const PublicRoute = ({children}) => {
 
-    if(localStorage.getItem('user' && 'token')){
+    if(localStorage.getItem('user') && localStorage.getItem('token')){
         <Navigate to='/' replace  />
     }
 

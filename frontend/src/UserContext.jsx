@@ -19,6 +19,11 @@ const UserContext = ({children}) => {
           ...state,
           user:action.payload
         }
+      case 'LOGOUT':
+        return{
+          ...state,
+          user:null,
+        }
       default:
         return state;
     }
