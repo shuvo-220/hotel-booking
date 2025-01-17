@@ -1,6 +1,8 @@
 const User = require('../models/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Place = require('../models/placeSchema');
+const imageDownloader = require('image-downloader')
 
 exports.register = async(req, res)=>{
     const{name, email, password} = req.body;
@@ -48,4 +50,27 @@ exports.profile = async(req, res)=>{
         res.status(400).json('user not found');
     }
     res.status(200).json(user)
+}
+
+exports.uploadByLinks=async(req, res)=>{
+    const{link} = req.body;
+    const newName = 'photo'+Date.now()+'.jpg';
+    await imageDownloader.image({
+        url:link,
+        dest:__dirname+'/upload/'+newName
+    });
+    res.json(newName);
+}
+
+
+exports.places = async(req, res)=>{
+    const{title,address,addedPhotos,description,extraInfo,checkOut,checkIn,maxGuest} = req.body;
+   try {
+    const place = await Place.create({
+        title,address,addedPhotos,description,extraInfo,checkOut,checkIn,maxGuest
+    })
+    res.status(200).json(place);
+   } catch (error) {
+    res.status(500).json(error)
+   }
 }

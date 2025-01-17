@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 const AddPlace = () => {
 
     const[title, setTitle] = useState('');
     const[address, setAddress] = useState('');
-    const[addesPhotos, setAddedPhotos] = useState([]);
+    const[addedPhotos, setAddedPhotos] = useState([]);
     const[photoLink, setPhotoLink] = useState('');
     const[description, setDescription] = useState('');
     const[extraInfo, setExtraInfo] = useState('');
@@ -12,10 +14,32 @@ const AddPlace = () => {
     const[checkOut, setCheckOut] = useState('');
     const[maxGuest, SetMaxGuest] = useState(1);
 
+    const navigate = useNavigate();
+
+    const addPhotoByLinks=async(e)=>{
+        e.preventDefault();
+        const{data:filename}=await axios.post('http://localhost:5000/api/v1/upload', {link:photoLink})
+        setAddedPhotos(prev=>{
+            return [...prev, filename]
+        })
+        setPhotoLink('')
+    }
+
+    const addNewPlace=async(e)=>{
+        e.preventDefault();
+        const{data} = await axios.post('http://localhost:5000/api/v1/places', {
+            title,address,addedPhotos,description,extraInfo,checkOut,checkIn,maxGuest
+        });
+        if(data.status === 200){
+            navigate('/account')
+        }
+    }
+
+
     return (
         <div className='p-5 max-w-[500px] mx-auto'>
             <h1 className='text-gray-600 text-center py-5 text-3xl font-bold'>Add Place</h1>
-            <form>
+            <form onSubmit={addNewPlace}>
 
                 <input 
                 type='text' 
@@ -44,12 +68,21 @@ const AddPlace = () => {
                     onChange={(e)=>setPhotoLink(e.target.value)}
                     />
 
-                    <button className='bg-primary text-white text-sm py-0 px-2 h-[43px]'>Add Photo</button>
+                    <button onClick={addPhotoByLinks} className='bg-primary text-white text-sm py-0 px-2 h-[43px]'>Add Photo</button>
                 </div>
 
-                <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-3'>
-                    <button className=' border bg-transparent rounded-2xl p-1 text-sm text-gray-600'>
-                        Upload from device</button>
+                <div className='grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 mt-3'>
+                    {
+                        addedPhotos.length > 0 && addedPhotos.map(link=>(
+                            <div>
+                                 <img className='rounded-2xl' src={`http://localhost:5000/upload/`+link} />
+                            </div>
+                        ))
+                    }
+                    <label className=' border bg-transparent rounded-2xl p-1 text-sm text-gray-600'>
+                        <input type='file' className='hidden' />
+                        Upload
+                    </label>
                 </div>
 
                 <textarea className='outline-none border-primary border-[1px] p-2 mt-3'
