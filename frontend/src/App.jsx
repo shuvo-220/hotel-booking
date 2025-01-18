@@ -8,6 +8,7 @@ import Account from './components/Account';
 import PublicRoute from './components/PublicRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 import AddPlace from './components/AddPlace';
+import SinglePlace from './components/SinglePlace';
 
 function App() {
 
@@ -40,6 +41,12 @@ function App() {
           <Route path='/place/new' element={
             <ProtectedRoute>
               <AddPlace />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/place/:id' element={
+            <ProtectedRoute>
+              <SinglePlace />
             </ProtectedRoute>
           } />
 

@@ -1,7 +1,21 @@
-import React from 'react'
+import React, {  useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 
 const Places = () => {
+
+  const[place, setPlace] = useState([])
+
+  const getPlaces=async()=>{
+    await axios.get('http://localhost:5000/api/v1/GetPlace').then(({data})=>{
+      setPlace(data)
+    })
+  }
+
+  useEffect(()=>{
+    getPlaces()
+  },[])
+
   return (
     <div>
       <div className=''>
@@ -11,6 +25,24 @@ const Places = () => {
           </svg>
 
           Add New Place</Link>
+      </div>
+      {/* place */}
+      <div>
+        <div className='mt-4'>
+          {
+            place.map((item)=>(
+              <div className='m-3 rounded'>
+                <Link to={`/place/${item._id}`}>
+                <div className='flex items-center gap-5 bg-gray-200'>
+                <h2>{item.title}</h2>
+                <img className='w-12 h-12' src={`http://localhost:5000/upload/${item.photos[0]}`} alt={item.title} />
+                <p>{item.description}</p>
+                </div>
+              </Link>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   )

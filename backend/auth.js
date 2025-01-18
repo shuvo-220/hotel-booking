@@ -15,5 +15,6 @@ exports.auth = async(req, res, next)=>{
         
     } catch (error) {
         res.status(400).json(error.message);
+        console.log(error.message)
     }
 }

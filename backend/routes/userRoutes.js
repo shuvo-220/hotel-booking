@@ -4,7 +4,8 @@ const {
     login,
     profile,
     uploadByLinks,
-    places
+    places,
+    getPlaces
 } = require('../controllers/userControllers');
 const { auth } = require('../auth');
 
@@ -14,6 +15,7 @@ router.post('/register', register)
 router.post('/login', login);
 router.get('/profile', auth, profile);
 router.post('/upload', uploadByLinks);
-router.post('/places', places);
+router.post('/places',  places);
+router.get('/getPlace', getPlaces);
 
 module.exports = router;

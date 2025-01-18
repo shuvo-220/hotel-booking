@@ -34,7 +34,9 @@ exports.login = async(req, res)=>{
             expiresIn:'2d'
         })
 
-        res.cookie('token', token);
+        res.cookie('token', token, {
+            httpOnly: true
+        });
 
         res.status(200).json({user, token})
 
@@ -67,10 +69,18 @@ exports.places = async(req, res)=>{
     const{title,address,addedPhotos,description,extraInfo,checkOut,checkIn,maxGuest} = req.body;
    try {
     const place = await Place.create({
-        title,address,addedPhotos,description,extraInfo,checkOut,checkIn,maxGuest
+        title,address,photos: addedPhotos,description,extraInfo,checkOut,checkIn,maxGuest
     })
     res.status(200).json(place);
    } catch (error) {
     res.status(500).json(error)
    }
+}
+
+exports.getPlaces=async(req, res)=>{
+    const place = await Place.find()
+    if(!place){
+        res.status(500).json('No places found');
+    }
+    res.status(200).json(place);
 }

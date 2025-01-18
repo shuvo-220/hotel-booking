@@ -17,7 +17,7 @@ const Login = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/v1/login',{
         email, password
-      })
+      },{ withCredentials: true })
       dispatch({type:'LOGIN', payload:res.data.user})
       localStorage.setItem('user', JSON.stringify(res.data.user))
       localStorage.setItem('token', JSON.stringify(res.data.token))
