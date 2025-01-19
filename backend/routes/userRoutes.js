@@ -5,7 +5,8 @@ const {
     profile,
     uploadByLinks,
     places,
-    getPlaces
+    getPlaces,
+    singlePlace
 } = require('../controllers/userControllers');
 const { auth } = require('../auth');
 
@@ -17,5 +18,6 @@ router.get('/profile', auth, profile);
 router.post('/upload', uploadByLinks);
 router.post('/places',  places);
 router.get('/getPlace', getPlaces);
+router.get('/place/:id', singlePlace)
 
 module.exports = router;

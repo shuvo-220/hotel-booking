@@ -84,3 +84,11 @@ exports.getPlaces=async(req, res)=>{
     }
     res.status(200).json(place);
 }
+
+exports.singlePlace = async(req, res)=>{
+    const place = await Place.findById(req.params.id)
+    if(!place){
+        res.status(500).json('place not found');
+    }
+    res.status(200).json(place);
+}

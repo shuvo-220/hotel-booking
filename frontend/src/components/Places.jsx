@@ -33,7 +33,7 @@ const Places = () => {
             place.map((item)=>(
               <div className='m-3 rounded'>
                 <Link to={`/place/${item._id}`}>
-                <div className='flex items-center gap-5 bg-gray-200'>
+                <div className='flex items-center gap-5 bg-gray-200 p-5'>
                 <h2>{item.title}</h2>
                 <img className='w-12 h-12' src={`http://localhost:5000/upload/${item.photos[0]}`} alt={item.title} />
                 <p>{item.description}</p>
